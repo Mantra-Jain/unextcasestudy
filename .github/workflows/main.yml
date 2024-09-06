@@ -1,0 +1,46 @@
+name: File Operations Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  fetch_and_push_file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Fetch SwapVariables.py
+        run: |
+          curl -o SwapVariables.py https://raw.githubusercontent.com/jissdeodates/Sample-Python-Programs/master/SwapVariables.py
+          
+      - name: Add and Commit SwapVariables.py
+        run: |
+          git config --global user.name "Mantra-Jain"
+          git config --global user.email "mj.mantrajain@gmail.com"
+          git add SwapVariables.py
+          git commit -m "Fetch and commit SwapVariables.py from external repository"
+          git push origin main
+
+  pull_file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Pull SwapVariables.py
+        run: |
+          curl -o SwapVariables.py https://raw.githubusercontent.com/jissdeodates/Sample-Python-Programs/master/SwapVariables.py
+          cat SwapVariables.py  
+
+  manual_dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Manual Dispatch
+        run: echo "This job was manually triggered"
